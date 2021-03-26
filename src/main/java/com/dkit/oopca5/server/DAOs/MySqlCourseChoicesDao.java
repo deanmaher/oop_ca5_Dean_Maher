@@ -37,8 +37,8 @@ public class MySqlCourseChoicesDao extends MySqlDao implements CourseChoicesDaoI
                 String caoNumber = rs.getString("caoNumber");
                 String courseID = rs.getString("courseID");
                 String order = rs.getString("order");
-                 Course c = new Course(caoNumber, courseID, order);
-                courses.add(c);
+//                 Course c = new Course(caoNumber, courseID, order);
+//                choices.add(c);
             }
         } catch (SQLException e)
         {
@@ -64,7 +64,7 @@ public class MySqlCourseChoicesDao extends MySqlDao implements CourseChoicesDaoI
                 throw new DaoException("findAllCourses() " + e.getMessage());
             }
         }
-        return courses;     // may be empty
+//        return courses;     // may be empty
     }
 
 
