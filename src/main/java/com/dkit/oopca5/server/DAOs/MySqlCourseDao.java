@@ -67,6 +67,58 @@ public class MySqlCourseDao extends MySqlDao implements CourseDaoInterface {
         }
         return courses;     // may be empty
     }
+
+    public Course findCourseByID(String courseID) throws DaoException
+    {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Course c = null;
+
+        try
+        {
+            con = this.getConnection();
+
+            String query = "SELECT * FROM Course WHERE courseID = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, courseID);  // search based on the cao number
+
+            rs = ps.executeQuery();
+            if (rs.next())
+            {
+                courseID = rs.getString("courseID");
+                String level = rs.getString("level");
+                String title = rs.getString("title");
+                String institution = rs.getString("institution");
+
+                c = new Course(courseID, level, title,institution );
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findCourseByID() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (rs != null)
+                {
+                    rs.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (con != null)
+                {
+                    freeConnection(con);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findCourseByID() " + e.getMessage());
+            }
+        }
+        return c;     // s may be null
+    }
 }
 
 
