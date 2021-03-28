@@ -28,7 +28,7 @@ public class CourseChoicesManager {
     // This is called "Dependency Injection", meaning that we
     // inject (or pass in) objects that this class requires to do its job.
     //
-    CourseChoicesManager(StudentManager studentManager, CourseManager courseManager) {
+    public CourseChoicesManager(StudentManager studentManager, CourseManager courseManager) {
         this.studentManager = studentManager;
         this.courseManager = courseManager;
 
@@ -47,7 +47,7 @@ public class CourseChoicesManager {
 
     }
 
-    Student getStudentDetails(int caoNumber) {
+    public Student getStudentDetails(int caoNumber) {
         return studentManager.getStudent(caoNumber);
     }
 
@@ -92,7 +92,7 @@ public class CourseChoicesManager {
         return list;    // list of courses, in no particular order.
     }
 
-    boolean login(int coaNumber,String dateOfBirth,String password) {
+    public boolean login(int coaNumber, String dateOfBirth, String password) {
         //if(  dob and password match the caoNumber)
         return true;
         // else
