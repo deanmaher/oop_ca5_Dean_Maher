@@ -5,7 +5,7 @@ package com.dkit.oopca5.core;
 
 public class CAOService
 {
-    public static final int PORT_NUM = 50025;
+    public static final int PORT_NUM = 8000;
     public static final String HOSTNAME = "localhost";
 
     public static final String BREAKING_CHARACTER = "%%";

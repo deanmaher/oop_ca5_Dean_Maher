@@ -27,7 +27,7 @@ public class MySqlCourseChoicesDao extends MySqlDao implements CourseChoicesDaoI
             //Get connection object using the methods in the super class (MySqlDao.java)...
             con = this.getConnection();
 
-            String query = "SELECT * FROM STUDENT_COURSES WHERE ";
+            String query = "SELECT * FROM STUDENT_COURSES WHERE caoNumber = ?";
             ps = con.prepareStatement(query);
 
             //Using a PreparedStatement to execute SQL...
@@ -64,7 +64,7 @@ public class MySqlCourseChoicesDao extends MySqlDao implements CourseChoicesDaoI
                 throw new DaoException("findAllCourses() " + e.getMessage());
             }
         }
-//        return courses;     // may be empty
+        return choices;     // may be empty
     }
 
 

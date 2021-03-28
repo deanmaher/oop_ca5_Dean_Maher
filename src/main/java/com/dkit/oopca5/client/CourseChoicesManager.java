@@ -1,4 +1,4 @@
-package com.dkit.oopca5.client.BusinessObjects;
+package com.dkit.oopca5.client;
 
 import com.dkit.oopca5.server.DTOs.Course;
 import com.dkit.oopca5.server.DTOs.Student;
@@ -8,10 +8,10 @@ import java.util.*;
 public class CourseChoicesManager {
 
     // reference to constructor injected studentManager
-    private StudentManager studentManager;
+    public StudentManager studentManager;
 
     // reference to constructor injected courseManager
-    private CourseManager courseManager;
+    public CourseManager courseManager;
 
     // Store all the Course details - HashMap for fast access
     // Map [courseId => course]

@@ -1,4 +1,4 @@
-package com.dkit.oopca5.client.BusinessObjects;
+package com.dkit.oopca5.client;
 
 import com.dkit.oopca5.server.DAOs.MySqlStudentDao;
 import com.dkit.oopca5.server.DAOs.StudentDaoInterface;

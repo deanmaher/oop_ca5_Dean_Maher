@@ -7,9 +7,6 @@ package com.dkit.oopca5.client;
  */
 
 
-import com.dkit.oopca5.client.BusinessObjects.CourseChoicesManager;
-import com.dkit.oopca5.client.BusinessObjects.CourseManager;
-import com.dkit.oopca5.client.BusinessObjects.StudentManager;
 import com.dkit.oopca5.server.DAOs.CourseDaoInterface;
 import com.dkit.oopca5.server.DAOs.MySqlCourseDao;
 import com.dkit.oopca5.server.DTOs.Course;
@@ -17,10 +14,16 @@ import com.dkit.oopca5.server.DTOs.Student;
 import com.dkit.oopca5.server.Exceptions.DaoException;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.dkit.oopca5.core.CAOService.BREAKING_CHARACTER;
+import static com.dkit.oopca5.core.CAOService.REGISTER_COMMAND;
 
 
 public class CAOClient
@@ -30,6 +33,12 @@ public class CAOClient
         new CAOClient().start();
     }
     private void start() throws IOException, ParseException {
+        try {
+            Socket socket = new Socket("localhost", 8080);  // connect to server socket
+            System.out.println("Client: Port# of this client : " + socket.getLocalPort());
+            System.out.println("Client: Port# of Server :" + socket.getPort() );
+
+            System.out.println("Client message: The Client is running and has connected to the server");
 
 
         // load students
@@ -55,6 +64,8 @@ public class CAOClient
                     break;
                 }
                 if (type == 1) {
+                    OutputStream os = socket.getOutputStream();
+                    PrintWriter out = new PrintWriter(os, true);
 //                    register?????
                     System.out.println("Enter CAO Number:");
                     int caoNumber = keyboard.nextInt();
@@ -65,9 +76,20 @@ public class CAOClient
                     System.out.println("Enter password:");
                     String password = keyboard.next();
 
-                    String message = "REGISTER%%" + caoNumber + "%%"+ dateOfBirth + "%%" + password + '\n';
+                    String message = REGISTER_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER+ dateOfBirth + BREAKING_CHARACTER + password + '\n';
+                    out.write(message);
+                    out.flush();
+                    Scanner inStream = new Scanner(socket.getInputStream());
+//                    System.out.println(message);
 
-                    System.out.println(message);
+                    if(message.startsWith(REGISTER_COMMAND)){
+                        String response = inStream.nextLine();
+                        System.out.println(response);
+                    }
+                    else{
+                        String input = inStream.nextLine();
+                        System.out.println( input );
+                    }
 
                 }
                 if (type == 2) {
@@ -84,6 +106,11 @@ public class CAOClient
         }
 
 
+           socket.close();
+
+        } catch (IOException e) {
+            System.out.println("Client message: IOException: "+e);
+        }
     }
 
     public static void printMainMenu() {

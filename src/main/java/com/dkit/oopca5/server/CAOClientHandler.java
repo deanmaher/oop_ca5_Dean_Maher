@@ -8,4 +8,9 @@ There should be one CAOClientHandler per Client.
 
 public class CAOClientHandler
 {
+    public static void main(String[] args)
+    {
+        System.out.println("To use this Clien-Server program, "
+                + "use Run File on Server, then Run File on Client");
+    }
 }

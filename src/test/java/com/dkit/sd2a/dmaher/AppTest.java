@@ -2,10 +2,10 @@ package com.dkit.sd2a.dmaher;
 
 import static org.junit.Assert.assertTrue;
 
-import com.dkit.oopca5.client.BusinessObjects.CourseManager;
+import com.dkit.oopca5.client.CourseManager;
 import com.dkit.oopca5.server.DTOs.Course;
 import com.dkit.oopca5.server.DTOs.Student;
-import com.dkit.oopca5.client.BusinessObjects.StudentManager;
+import com.dkit.oopca5.client.StudentManager;
 import org.junit.Test;
 
 /**
