@@ -18,7 +18,7 @@ public class CourseChoices {
 
     // caoNumber, course selection list - for fast access
     //HashMap with key:CAO Number value:choices ArrayList
-    HashMap<Integer, List<String>> selectedChoices = new HashMap<>();
+    HashMap<String, List<String>> selectedChoices = new HashMap<String, List<String>>();
 
     public void CourseChoicesManager(StudentManager studentManager, CourseManager courseManager) {
         this.studentManager = studentManager;
@@ -26,7 +26,7 @@ public class CourseChoices {
 
     }
 
-    public void updateChoices(int caoNumber, List<String> choices) {
+    public void updateChoices(String caoNumber, List<String> choices) {
         selectedChoices.put(caoNumber, choices);
 
 
