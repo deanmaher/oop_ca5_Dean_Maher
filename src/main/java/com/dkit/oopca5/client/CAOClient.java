@@ -22,8 +22,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.dkit.oopca5.core.CAOService.BREAKING_CHARACTER;
-import static com.dkit.oopca5.core.CAOService.REGISTER_COMMAND;
+import static com.dkit.oopca5.core.CAOService.*;
 
 
 public class CAOClient
@@ -34,7 +33,7 @@ public class CAOClient
     }
     private void start() throws IOException, ParseException {
         try {
-            Socket socket = new Socket("localhost", 8080);  // connect to server socket
+            Socket socket = new Socket(HOSTNAME, PORT_NUM);  // connect to server socket
             System.out.println("Client: Port# of this client : " + socket.getLocalPort());
             System.out.println("Client: Port# of Server :" + socket.getPort() );
 
@@ -65,7 +64,7 @@ public class CAOClient
                 }
                 if (type == 1) {
                     OutputStream os = socket.getOutputStream();
-                    PrintWriter out = new PrintWriter(os, true);
+                    PrintWriter socketWriter = new PrintWriter(os, true);
 //                    register?????
                     System.out.println("Enter CAO Number:");
                     int caoNumber = keyboard.nextInt();
@@ -77,17 +76,18 @@ public class CAOClient
                     String password = keyboard.next();
 
                     String message = REGISTER_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER+ dateOfBirth + BREAKING_CHARACTER + password + '\n';
-                    out.write(message);
-                    out.flush();
-                    Scanner inStream = new Scanner(socket.getInputStream());
+
+                    socketWriter.println(message);
+
+                    Scanner socketReader = new Scanner(socket.getInputStream()); //waiting for reply
 //                    System.out.println(message);
 
                     if(message.startsWith(REGISTER_COMMAND)){
-                        String response = inStream.nextLine();
+                        String response = socketReader.nextLine();
                         System.out.println(response);
                     }
                     else{
-                        String input = inStream.nextLine();
+                        String input = socketReader.nextLine();
                         System.out.println( input );
                     }
 

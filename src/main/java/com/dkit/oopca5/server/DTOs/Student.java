@@ -4,7 +4,7 @@ package com.dkit.oopca5.server.DTOs;
 import java.util.Objects;
 
 public class Student {
-    private int caoNumber;  // In the CAA system, cao number is unique identifier for student
+    private String caoNumber;  // In the CAA system, cao number is unique identifier for student
     private String dateOfBirth; // yyyy-mm-dd
     private String password;    // min 8 characters
 
@@ -20,7 +20,7 @@ public class Student {
 
     }
 
-    public Student(int caoNumber, String dateOfBirth, String password) {
+    public Student(String caoNumber, String dateOfBirth, String password) {
         this.caoNumber = caoNumber;
         this.dateOfBirth = dateOfBirth;
         this.password = password;
@@ -29,11 +29,11 @@ public class Student {
 
     //public boolean verifyLoginCredentials( yyy-mm-dd, password);
 
-    public int getCaoNumber() {
+    public String getCaoNumber() {
         return caoNumber;
     }
 
-    public void setCaoNumber(int caoNumber) {
+    public void setCaoNumber(String caoNumber) {
         this.caoNumber = caoNumber;
     }
 

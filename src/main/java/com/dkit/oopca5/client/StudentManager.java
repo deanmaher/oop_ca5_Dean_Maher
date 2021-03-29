@@ -12,7 +12,7 @@ import java.util.Map;
 public class StudentManager {
 
     // Store all students in a Map <caoNumber => student>
-    private Map<Integer, Student> studentsMap = new HashMap<>();
+    private Map<String, Student> studentsMap = new HashMap<>();
 
     public StudentManager() {
 
@@ -52,7 +52,7 @@ public class StudentManager {
     }
 
     public void addStudent(Student student) {
-        Integer caoNumber = student.getCaoNumber();
+        String caoNumber = student.getCaoNumber();
         studentsMap.put(caoNumber, new Student(student));
     }
 

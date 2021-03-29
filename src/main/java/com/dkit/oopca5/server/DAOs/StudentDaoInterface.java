@@ -8,6 +8,6 @@ public interface StudentDaoInterface {
 
     public List<Student> findAllStudents() throws DaoException;
     public boolean registerStudent(Student s ) throws DaoException;
-    public Student findStudent(int caoNumber) throws DaoException;
+    public Student findStudent(String caoNumber) throws DaoException;
 
 }

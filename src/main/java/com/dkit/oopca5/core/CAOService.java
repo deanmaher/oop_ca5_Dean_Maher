@@ -5,7 +5,7 @@ package com.dkit.oopca5.core;
 
 public class CAOService
 {
-    public static final int PORT_NUM = 8000;
+    public static final int PORT_NUM = 8080;
     public static final String HOSTNAME = "localhost";
 
     public static final String BREAKING_CHARACTER = "%%";
@@ -13,4 +13,8 @@ public class CAOService
     public static final String REGISTER_COMMAND = "REGISTER";
     public static final String SUCCESSFUL_REGISTER = "REGISTERED";
     public static final String FAILED_REGISTER = "REG FAILED";
+
+    public static final String LOGIN_COMMAND = "LOGIN";
+    public static final String SUCCESSFUL_LOGIN = "LOGGED IN";
+    public static final String FAILED_LOGIN = "LOGIN FAILED";
 }

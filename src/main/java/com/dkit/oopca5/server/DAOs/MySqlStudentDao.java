@@ -33,7 +33,7 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
             rs = ps.executeQuery();
             while (rs.next())
             {
-                int caoNumber = rs.getInt("caoNumber");
+                String caoNumber = rs.getString("caoNumber");
                 String dateOfBirth = rs.getString("dateOfBirth");
                 String password = rs.getString("password");
                 Student s = new Student(caoNumber, dateOfBirth, password);
@@ -80,7 +80,7 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
             String query = "INSERT INTO STUDENT VALUES (?,?,?)";
             ps = con.prepareStatement(query);
 
-            ps.setInt(1, s.getCaoNumber());
+            ps.setString(1, s.getCaoNumber());
             ps.setString(2, s.getDateOfBirth());
             ps.setString(3, s.getPassword());
 
@@ -117,7 +117,7 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
 
 
 
-    public Student findStudent(int caoNumber) throws DaoException
+    public Student findStudent(String caoNumber) throws DaoException
     {
         Connection con = null;
         PreparedStatement ps = null;
@@ -130,12 +130,12 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
 
             String query = "SELECT * FROM Student WHERE caoNumber = ?";
             ps = con.prepareStatement(query);
-            ps.setInt(1, caoNumber);  // search based on the cao number
+            ps.setString(1, caoNumber);  // search based on the cao number
 
             rs = ps.executeQuery();
             if (rs.next())
             {
-                caoNumber = rs.getInt("CAONUMBER");
+                caoNumber = rs.getString("CAONUMBER");
                 String dateOfBirth = rs.getString("DATEOFBIRTH");
                 String password = rs.getString("PASSWORD");
 
@@ -143,7 +143,7 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
             }
         } catch (SQLException e)
         {
-            throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+            throw new DaoException("findStudent() " + e.getMessage());
         } finally
         {
             try
@@ -162,7 +162,7 @@ public class MySqlStudentDao extends MySqlDao implements StudentDaoInterface {
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+                throw new DaoException("findStudent() " + e.getMessage());
             }
         }
         return s;     // s may be null

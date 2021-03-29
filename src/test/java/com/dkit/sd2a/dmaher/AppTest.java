@@ -23,7 +23,7 @@ public class AppTest
 //
 //        Student s = studentManager.getStudent(12345678);
 
-        int caoNumber = 11111111;
+        String caoNumber = "11111111";
         String dob = "1999-09=09";
         String password = "password";
         Student expected = new Student(caoNumber, dob, password);
