@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -105,39 +106,8 @@ public class CAOClient
 
                 if (type == 2) {
 //                    normal login
-//                    printMainMenu();
                     mainMenu();
-                    OutputStream os = socket.getOutputStream();
-                    PrintWriter socketWriter = new PrintWriter(os, true);
-//
-                    System.out.println("Enter CAO Number:");
-                    int caoNumber = keyboard.nextInt();
-                    System.out.println("Enter date of birth:");
-                    String dateOfBirth = keyboard.next();
 
-                    System.out.println("Enter password: (must be at least 5 characters long)");
-                    String password = keyboard.next();
-//                        String regex = "^[a-zA-Z]{5,}$";
-//                        boolean result = password.matches(regex);
-//                        if (result) {
-
-                    String message = LOGIN_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + dateOfBirth + BREAKING_CHARACTER + password + '\n';
-                    System.out.println(message);
-                    socketWriter.println(message);
-
-                    Scanner socketReader = new Scanner(socket.getInputStream()); //waiting for reply
-//                    System.out.println(message);
-
-                    if (message.startsWith(LOGIN_COMMAND)) {
-                        String response = socketReader.nextLine();
-                        System.out.println(response);
-                        mainMenu();
-
-                    } else {
-                        String input = socketReader.nextLine();
-                        System.out.println(input);
-                        break;
-                    }
                 }
 
             }
@@ -178,10 +148,44 @@ public class CAOClient
     }
 
     public void mainMenu() throws IOException {
+        Socket socket = new Socket(HOSTNAME, PORT_NUM);
+        Scanner keyboard = new Scanner(System.in);
+        OutputStream os = socket.getOutputStream();
+        PrintWriter socketWriter = new PrintWriter(os, true);
+//
+        System.out.println("Enter CAO Number:");
+        String caoNumber = keyboard.next();
+        System.out.println("Enter date of birth:");
+        String dateOfBirth = keyboard.next();
+
+        System.out.println("Enter password: (must be at least 5 characters long)");
+        String password = keyboard.next();
+//                        String regex = "^[a-zA-Z]{5,}$";
+//                        boolean result = password.matches(regex);
+//                        if (result) {
+
+        String message = LOGIN_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + dateOfBirth + BREAKING_CHARACTER + password + '\n';
+        System.out.println(message);
+        socketWriter.println(message);
+
+        Scanner socketReader = new Scanner(socket.getInputStream()); //waiting for reply
+//                    System.out.println(message);
+
+        if (message.startsWith(LOGIN_COMMAND)) {
+            String response = socketReader.nextLine();
+            System.out.println(response);
+
+
+        } else {
+            String input = socketReader.nextLine();
+            System.out.println(input);
+
+        }
+
+
         StudentManager studentManager = new StudentManager();
         CourseManager courseManager = new CourseManager();
         CourseChoicesManager mgr = new CourseChoicesManager(studentManager, courseManager);
-        Scanner keyboard = new Scanner(System.in);
 
         //For student menu login
 
@@ -204,37 +208,132 @@ public class CAOClient
                 else if (option == 1)
                 {
 //                 logout
+                    new CAOClient().start();
                 }
                 else if (option == 2)
                 {
 //                    display course
-//                    System.out.println("Displaying all courses: ");
-//                    System.out.println(mgr.getAllCourses());
+                    System.out.println("Please enter Course ID:");
+                    String ID = keyboard.next();
+
+                    message = DISPLAY_COURSE_COMMAND + BREAKING_CHARACTER + ID +'\n';
+                    System.out.println(message);
+                    socketWriter.println(message);
+
+                    if (message.startsWith(DISPLAY_COURSE_COMMAND)) {
+                        String response = socketReader.nextLine();
+                        System.out.println(response);
+                        mainMenu();
+
+                    } else {
+                        String input = socketReader.nextLine();
+                        System.out.println(input);
+                        break;
+                    }
 
                     pressAnyKeyToContinue();
-
                 }
                 else if (option == 3)
                 {
 //                 DISPLAY ALL COURSES
+                    message = DISPLAY_ALL_COMMAND +'\n';
+                    System.out.println(message);
+                    socketWriter.println(message);
 
-                    CourseDaoInterface courseDao = new MySqlCourseDao();
-                    try
-                    {
-                        List<Course> courseList = courseDao.findAllCourses();
-                        System.out.println(courseList);
-                    }
-                    catch (DaoException e)
-                    {
-                        e.printStackTrace();
+
+                    if (message.startsWith(DISPLAY_ALL_COMMAND)) {
+                        String response = socketReader.nextLine();
+                        System.out.println(response);
+                        mainMenu();
+
+                    } else {
+                        String input = socketReader.nextLine();
+                        System.out.println(input);
+                        break;
                     }
 
+                    pressAnyKeyToContinue();
+
+
+//                    CourseDaoInterface courseDao = new MySqlCourseDao();
+//                    try
+//                    {
+//                        List<Course> courseList = courseDao.findAllCourses();
+//                        System.out.println(courseList);
+//                    }
+//                    catch (DaoException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
                 }
 
 
                 else if (option == 4)
                 {
-                    //                 DISPLAY COURSE
+                    //DISPLAY CURRENT CHOICES
+
+                    message = DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber +'\n';
+                    System.out.println(message);
+                    socketWriter.println(message);
+
+                    if (message.startsWith(DISPLAY_CURRENT_COMMAND)) {
+                        String response = socketReader.nextLine();
+                        System.out.println(response);
+                        mainMenu();
+
+                    } else {
+                        String input = socketReader.nextLine();
+                        System.out.println(input);
+                        break;
+                    }
+
+                    pressAnyKeyToContinue();
+                }
+                else if (option == 5)
+                {
+                    //UPDATE CURRENT CHOICES
+                    int x = 11;
+                    ArrayList<String> list = new ArrayList<>();
+                    for (int i = 0; i <= 9; i++) {
+
+                        x = x - 1;
+                        System.out.println("You have " + x + " spaces left for your course choices!");
+
+                        System.out.println("Please enter course ID");
+                        String ID = keyboard.next();
+                        list.add(ID);
+                        try {
+                            System.out.println("Press 1 to add another course");
+                            System.out.println("Press 2 exit");
+                            int repeat = keyboard.nextInt();
+                            if (repeat == 2) {
+                                break;
+                            }
+                        }
+                        catch(InputMismatchException e){
+                            System.out.println("InputMismatchException: PLease input type int");
+                        }
+                    }
+                    int size = list.size();
+                    generateUpdateMessage(size, caoNumber);
+                    System.out.println(message);
+                    socketWriter.println(message);
+
+
+                        if (message.startsWith(DISPLAY_CURRENT_COMMAND)) {
+                            String response = socketReader.nextLine();
+                            System.out.println(response);
+                            mainMenu();
+
+                        } else {
+                            String input = socketReader.nextLine();
+                            System.out.println(input);
+
+                        }
+
+
+                    pressAnyKeyToContinue();
+
 
 //                    CourseDaoInterface courseDao = new MySqlCourseDao();
 //                    try
@@ -249,8 +348,9 @@ public class CAOClient
 
                 }
 
+
             }
-            catch(InputMismatchException e)
+            catch(InputMismatchException | ParseException e)
             {
                 System.out.println("Please Enter a number [0-5]");
             }
@@ -282,6 +382,46 @@ public class CAOClient
         }
         catch(Exception e)
         {}
+    }
+    public String generateUpdateMessage(int size, String caoNumber){
+        String message=null;
+        if(size==1){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) +'\n'";
+        }
+        if(size==2){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) +'\n'";
+        }
+        if(size==3){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + '\n'";
+
+        }
+        if(size==4){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + '\n'";
+        }
+        if(size==5){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' +'\n'";
+
+        }
+        if(size==6){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' + list.get(5)' +'\n'";
+        }
+        if(size==7){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' + list.get(5)' + list.get(6)' + '\n'";
+
+        }
+        if(size==8){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' + list.get(5)' + list.get(6)' + list.get(7)' + '\n'";
+
+        }
+        if(size==9){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' + list.get(5)' + list.get(6)' + list.get(7)' + list.get(8)' + '\n'";
+
+        }
+        if(size==10){
+            message = "DISPLAY_CURRENT_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + list.get(0) + list.get(1) + list.get(2)' + list.get(3)' + list.get(4)' + list.get(5)' + list.get(6)' + list.get(7)' + list.get(8)' + list.get(9)' + '\n'";
+
+        }
+        return message;
     }
 }
 
