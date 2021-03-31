@@ -9,6 +9,7 @@ package com.dkit.oopca5.server;
  The server then returns to listening
  */
 
+import com.dkit.oopca5.client.CourseChoicesManager;
 import com.dkit.oopca5.server.DAOs.MySqlStudentDao;
 import com.dkit.oopca5.server.DAOs.StudentDaoInterface;
 import com.dkit.oopca5.server.DTOs.Student;
@@ -127,10 +128,15 @@ public class CAOServer
 
                     //LOGIN
                     if(arr[0].equals(LOGIN_COMMAND)){
-                        boolean login;
-                        Student s = studentDao.findStudent(arr[1]);
+                          Student s = studentDao.findStudent(arr[1]);
 
-
+                          if(s!=null && s.getDateOfBirth() == arr[2] && s.getPassword() == arr[3])
+                          {
+                              socketWriter.println(SUCCESSFUL_LOGIN);
+                          }
+                          else{
+                              socketWriter.println(FAILED_LOGIN);
+                          }
                     }
 
 

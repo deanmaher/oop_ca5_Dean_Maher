@@ -27,7 +27,7 @@ import static com.dkit.oopca5.core.CAOService.*;
 
 public class CAOClient
 {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException, InputMismatchException {
         System.out.println("CAO Online - CA5 - Dean Maher SD2A");
         new CAOClient().start();
     }
@@ -69,38 +69,79 @@ public class CAOClient
                     System.out.println("Enter CAO Number:");
                     int caoNumber = keyboard.nextInt();
 
+
+
+                        System.out.println("Enter date of birth:");
+                        String dateOfBirth = keyboard.next();
+
+                        System.out.println("Enter password: (must be at least 5 characters long)");
+                        String password = keyboard.next();
+//                        String regex = "^[a-zA-Z]{5,}$";
+//                        boolean result = password.matches(regex);
+//                        if (result) {
+
+                        String message = REGISTER_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + dateOfBirth + BREAKING_CHARACTER + password + '\n';
+                        System.out.println(message);
+                        socketWriter.println(message);
+
+                        Scanner socketReader = new Scanner(socket.getInputStream()); //waiting for reply
+//                    System.out.println(message);
+
+                        if (message.startsWith(REGISTER_COMMAND)) {
+                            String response = socketReader.nextLine();
+                            System.out.println(response);
+                            mainMenu();
+
+                        } else {
+                            String input = socketReader.nextLine();
+                            System.out.println(input);
+                            break;
+                        }
+                    }
+//                    else{
+//                        System.out.println("password must be at least 5 characters long");
+//                    }
+
+
+                if (type == 2) {
+//                    normal login
+//                    printMainMenu();
+                    mainMenu();
+                    OutputStream os = socket.getOutputStream();
+                    PrintWriter socketWriter = new PrintWriter(os, true);
+//
+                    System.out.println("Enter CAO Number:");
+                    int caoNumber = keyboard.nextInt();
                     System.out.println("Enter date of birth:");
                     String dateOfBirth = keyboard.next();
 
-                    System.out.println("Enter password:");
+                    System.out.println("Enter password: (must be at least 5 characters long)");
                     String password = keyboard.next();
+//                        String regex = "^[a-zA-Z]{5,}$";
+//                        boolean result = password.matches(regex);
+//                        if (result) {
 
-                    String message = REGISTER_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER+ dateOfBirth + BREAKING_CHARACTER + password + '\n';
-
+                    String message = LOGIN_COMMAND + BREAKING_CHARACTER + caoNumber + BREAKING_CHARACTER + dateOfBirth + BREAKING_CHARACTER + password + '\n';
+                    System.out.println(message);
                     socketWriter.println(message);
 
                     Scanner socketReader = new Scanner(socket.getInputStream()); //waiting for reply
 //                    System.out.println(message);
 
-                    if(message.startsWith(REGISTER_COMMAND)){
+                    if (message.startsWith(LOGIN_COMMAND)) {
                         String response = socketReader.nextLine();
                         System.out.println(response);
-                    }
-                    else{
+                        mainMenu();
+
+                    } else {
                         String input = socketReader.nextLine();
-                        System.out.println( input );
+                        System.out.println(input);
+                        break;
                     }
-
                 }
-                if (type == 2) {
-//                    normal login
-//                    printMainMenu();
-                    mainMenu();
 
-                } else {
-                    System.out.println("Please enter either 0, 1 or 2");
-                }
-            } catch (InputMismatchException e) {
+            }
+            catch (InputMismatchException e) {
                 System.out.println(e + " Please Enter a NUMBER [0-2]");
             }
         }
@@ -108,7 +149,8 @@ public class CAOClient
 
            socket.close();
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("Client message: IOException: "+e);
         }
     }
@@ -125,13 +167,14 @@ public class CAOClient
 
     }
 
-    public int firstMenu() {
-        int option1 = 0;
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("0. QUIT_APPLICATION");
-        System.out.println("1. REGISTER");
-        System.out.println("2. LOGIN");
-        return option1 = keyboard.nextInt();
+    public int firstMenu() throws IOException, ParseException {
+            int option1 = 0;
+            Scanner keyboard = new Scanner(System.in);
+         System.out.println("\n**************************************************************");
+            System.out.println("0. QUIT_APPLICATION");
+            System.out.println("1. REGISTER");
+            System.out.println("2. LOGIN");
+            return option1 = keyboard.nextInt();
     }
 
     public void mainMenu() throws IOException {
@@ -143,18 +186,6 @@ public class CAOClient
         //For student menu login
 
 
-        System.out.println("Please enter CAO Number:");
-        int caoNumber = keyboard.nextInt();
-
-
-        System.out.println("Please enter date of birth (DD/MM/YYYY):");
-        String dob = keyboard.next();
-
-        System.out.println("Please enter password:");
-        String password = keyboard.next();
-        mgr.login(caoNumber, dob, password);
-        Student student = mgr.getStudentDetails(caoNumber);
-        System.out.println("Student: " + student);
         printMainMenu();
 
         System.out.print("Please enter option:");

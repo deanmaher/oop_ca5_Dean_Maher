@@ -20,17 +20,31 @@ public class CourseChoices {
     //HashMap with key:CAO Number value:choices ArrayList
     HashMap<String, List<String>> selectedChoices = new HashMap<String, List<String>>();
 
-    public void CourseChoicesManager(StudentManager studentManager, CourseManager courseManager) {
-        this.studentManager = studentManager;
-        this.courseManager = courseManager;
+    private String caoNumber;
+    private String courseID;
+    private String order;
 
+    public CourseChoices(String caoNumber, String courseID, String order) {
+        this.caoNumber = caoNumber;
+        this.courseID = courseID;
+        this.order = order;
     }
 
-    public void updateChoices(String caoNumber, List<String> choices) {
-        selectedChoices.put(caoNumber, choices);
-
-
+    public void CourseChoicesManager( String caoNumber, String courseID, String order
+//    StudentManager studentManager, CourseManager courseManager
+    ) {
+//        this.studentManager = studentManager;
+//        this.courseManager = courseManager;
+        this.caoNumber = caoNumber;
+        this.courseID = courseID;
+        this.order = order;
     }
+
+//    public void updateChoices(String caoNumber, String courseID, String order) {
+//        List<String> put = selectedChoices.put(caoNumber, courseID, order);
+//
+//
+//    }
     public List<String> getStudentChoices( int caoNumber)
     {
         List<String> choices = selectedChoices.get(caoNumber);
