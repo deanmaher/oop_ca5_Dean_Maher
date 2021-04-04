@@ -1,3 +1,7 @@
+//SD2A
+//Dean Maher
+//D00230655
+
 package com.dkit.oopca5.client;
 
 /* The client package should contain all code and classes needed to run the Client

@@ -1,3 +1,6 @@
+//SD2A
+//Dean Maher
+//D00230655
 package com.dkit.oopca5.server;
 
 /* The server package should contain all code to run the server.
