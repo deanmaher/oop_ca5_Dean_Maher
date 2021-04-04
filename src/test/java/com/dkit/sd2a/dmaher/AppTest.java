@@ -11,9 +11,7 @@ import com.dkit.oopca5.server.DTOs.Student;
 import com.dkit.oopca5.client.StudentManager;
 import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
+
 public class AppTest 
 {
     /**
