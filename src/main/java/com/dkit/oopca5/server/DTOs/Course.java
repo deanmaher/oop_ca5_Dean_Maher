@@ -1,3 +1,6 @@
+//SD2A
+//Dean Maher
+//D00230655
 package com.dkit.oopca5.server.DTOs;
 import java.util.Objects;
 public class Course {
